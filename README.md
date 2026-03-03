@@ -37,3 +37,77 @@ After generating the failed login attempts, the following command was used to qu
 
 ```bash
 log show --predicate '(eventMessage CONTAINS "Authentication failed")' --style syslog --last 1h
+
+
+
+
+
+
+## 📄 4. Log Evidence
+
+The following indicators were observed in system logs:
+
+Process: opendirectoryd
+
+Message: Authentication failed
+
+Error Code: ODErrorCredentialsInvalid
+
+Multiple failures occurring within seconds of each other
+
+Precise timestamps indicating rapid repetition
+
+Example Log Entry
+2026-03-02 20:17:48.096114-0500  
+localhost opendirectoryd[363]:  
+Authentication failed for <private>: ODErrorCredentialsInvalid
+
+The error code ODErrorCredentialsInvalid confirms invalid credential attempts (incorrect password).
+
+## 🧠 5. Analysis
+
+Log timestamps indicate numerous authentication failures occurring between approximately 20:17:27 and 20:18:26, with several attempts occurring within the same second.
+
+Key Observations
+
+Repeated authentication failures in rapid succession
+
+Consistent error code indicating invalid credentials
+
+Central authentication service (opendirectoryd) handling validation
+
+The behavior pattern aligns with brute-force or repeated credential-guessing activity. In this lab environment, the activity was intentionally generated for testing purposes.
+
+## ⚠️ 6. Risk Assessment
+
+Risk Level: 🟡 Medium (Lab Environment)
+
+In a corporate environment, similar log patterns could indicate:
+
+Unauthorized access attempts
+
+Credential stuffing or brute-force attacks
+
+Malware attempting privilege escalation
+
+Compromised local or remote authentication attempts
+
+Rapid repeated authentication failures should always be investigated.
+
+## 🛠️ 7. Recommendations
+
+Implement account lockout policies after a defined number of failed attempts
+
+Enable Multi-Factor Authentication (MFA) wherever possible
+
+Monitor authentication logs using a centralized SIEM solution
+
+Configure alerting for excessive authentication failures within short time intervals
+
+Investigate recurring authentication failures for potential malicious activity
+
+## ✅ 8. Conclusion
+
+This lab successfully demonstrated the detection and analysis of authentication failures using macOS Unified Logs. By filtering and interpreting system log data, repeated invalid credential attempts were identified and analyzed.
+
+The exercise highlights the importance of log monitoring and authentication event analysis in early detection of unauthorized access attempts.
